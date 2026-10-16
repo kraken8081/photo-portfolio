@@ -2,3 +2,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet" />
+{{- /* Motion polish: mark early so home cards can start hidden without FOUC */ -}}
+<script>
+  try {
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("has-motion-js");
+    }
+  } catch (e) {}
+</script>

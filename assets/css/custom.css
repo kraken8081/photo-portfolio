@@ -14,7 +14,11 @@ html.light {
   --text-1: var(--text-1-light);
   --text-2: var(--text-2-light);
   --border: var(--border-light);
-  --journal-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --journal-ease: cubic-bezier(0.4, 0, 0.2, 1); /* legacy Material; prefer reveal/settle */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out style */
+  --ease-settle: cubic-bezier(0.34, 1.28, 0.64, 1); /* slight ease-out-back */
+  --duration-short: 220ms;
+  --duration-medium: 480ms;
   --journal-radius-frame: 10px;
   --journal-radius-photo: 6px;
 }
@@ -143,7 +147,9 @@ section.galleries {
 
 .card {
   border-radius: 0;
-  transition: transform 0.5s var(--journal-ease);
+  transition:
+    transform var(--duration-medium) var(--ease-settle),
+    box-shadow var(--duration-medium) var(--ease-settle);
 }
 
 .card:hover {
@@ -163,6 +169,7 @@ section.galleries {
   border: 1px solid var(--border);
   border-radius: var(--journal-radius-frame);
   overflow: hidden;
+  transition: box-shadow var(--duration-medium) var(--ease-settle);
 }
 
 .card > figure > img,
@@ -174,7 +181,7 @@ section.galleries {
   object-fit: cover;
   border-radius: var(--journal-radius-photo);
   box-shadow: none;
-  transition: transform 0.9s var(--journal-ease);
+  transition: transform 0.75s var(--ease-reveal);
 }
 
 .card:hover > figure {
@@ -298,11 +305,13 @@ section.gallery {
 .gallery-item {
   border-radius: var(--journal-radius-photo);
   box-shadow: 0 1px 0 rgba(74, 59, 48, 0.04);
-  transition: transform 0.45s var(--journal-ease), box-shadow 0.45s var(--journal-ease);
+  transition:
+    transform var(--duration-short) var(--ease-settle),
+    box-shadow var(--duration-medium) var(--ease-settle);
 }
 
 .gallery-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: 0 12px 28px -16px rgba(74, 59, 48, 0.28);
 }
 
@@ -322,7 +331,7 @@ section.gallery {
   height: 100%;
   object-fit: cover;
   border-radius: var(--journal-radius-photo);
-  transition: transform 0.7s var(--journal-ease);
+  transition: transform 0.65s var(--ease-reveal);
 }
 
 .gallery-item:hover img {
@@ -376,5 +385,81 @@ section.gallery {
   .pswp__button--arrow--prev,
   .pswp__button--arrow--next {
     display: none !important;
+  }
+}
+
+/* —— Motion polish: home album card stagger entrance —— */
+/* Only hide before reveal when early JS mark is present (no-JS stays visible) */
+html.has-motion-js section.galleries > .card:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+html.has-motion-js section.galleries > .card.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--duration-medium) var(--ease-reveal),
+    transform var(--duration-medium) var(--ease-reveal),
+    box-shadow var(--duration-medium) var(--ease-settle);
+}
+
+/* Hover can still lift after reveal; keep settle ease for handfeel */
+html.has-motion-js section.galleries > .card.is-revealed:hover {
+  transform: translateY(-6px);
+  transition:
+    transform var(--duration-medium) var(--ease-settle),
+    opacity var(--duration-medium) var(--ease-reveal),
+    box-shadow var(--duration-medium) var(--ease-settle);
+}
+
+/* —— prefers-reduced-motion: near-instant / no entrance or hover motion —— */
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  html.light {
+    --duration-short: 1ms;
+    --duration-medium: 1ms;
+    --ease-reveal: linear;
+    --ease-settle: linear;
+  }
+
+  .card,
+  .card > figure,
+  .card > figure > img,
+  .card > img,
+  .gallery-item,
+  .gallery-item img,
+  html.has-motion-js section.galleries > .card.is-revealed,
+  html.has-motion-js section.galleries > .card.is-revealed:hover {
+    transition: none !important;
+  }
+
+  .card:hover,
+  .card:hover > figure > img,
+  .card:hover > img,
+  .gallery-item:hover,
+  .gallery-item:hover img,
+  html.has-motion-js section.galleries > .card:not(.is-revealed),
+  html.has-motion-js section.galleries > .card.is-revealed,
+  html.has-motion-js section.galleries > .card.is-revealed:hover {
+    transform: none !important;
+  }
+
+  html.has-motion-js section.galleries > .card:not(.is-revealed),
+  html.has-motion-js section.galleries > .card.is-revealed {
+    opacity: 1 !important;
+  }
+
+  .card:hover > figure,
+  .gallery-item:hover {
+    box-shadow: inherit;
+  }
+
+  .gallery-item:hover {
+    box-shadow: 0 1px 0 rgba(74, 59, 48, 0.04);
+  }
+
+  .card:hover > figure {
+    box-shadow: none;
   }
 }
