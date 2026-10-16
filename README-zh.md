@@ -68,7 +68,7 @@ hugo --gc --minify             # 生成正式站点到 public/ 目录
 目标站点 URL（项目 Pages）：https://kraken8081.github.io/photo-portfolio/  
 后台（部署成功后）：https://kraken8081.github.io/photo-portfolio/admin/
 
-- **GitHub Actions 工作流**：已提供 `.github/workflows/hugo.yml`（Hugo Extended 0.168、模块拉取、`hugo --minify`、`actions/deploy-pages`）。推送到 `main` 或手动 `workflow_dispatch` 会构建。
+- **GitHub Actions 工作流**：完整 YAML 在 `deploy/hugo-pages.workflow.yml`（Hugo Extended 0.168、模块拉取、`hugo --minify`、`actions/deploy-pages`）。启用步骤：复制到 `.github/workflows/hugo.yml` 后推送（需要 `workflow` OAuth scope：`gh auth refresh -s workflow,repo`），再推送到 `main` 或手动 `workflow_dispatch`。
 - **GitHub Pages 与私有仓库**：当前账号为 **GitHub Free**。私有仓库无法启用 Pages（API：`Your current plan does not support GitHub Pages for this repository.`）。可选方案：
   1. **升级 GitHub Pro**（个人账号可对私有仓库启用 Pages；站点内容仍默认公开访问），然后在仓库 Settings → Pages → Source 选 GitHub Actions，或运行 `gh api -X POST repos/kraken8081/photo-portfolio/pages -f build_type=workflow`。
   2. **将仓库改为公开**（需你明确同意；未自动执行），免费即可用 Pages；注意照片与源码会对所有人可见。
