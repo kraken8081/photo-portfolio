@@ -263,3 +263,118 @@ body > menu {
   font-weight: 500;
   letter-spacing: 0.04em;
 }
+
+/* —— 相册页：纸感留白 + 防裁切 —— */
+section.gallery {
+  /* 主题把左右 padding 清零导致贴边；恢复并略加宽 */
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  section.gallery {
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  section.gallery {
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+  }
+}
+
+/* 主题 gallery.html 内联 overflow:hidden 会裁掉行末缩略图 */
+#gallery {
+  overflow: visible !important;
+  width: 100%;
+}
+
+/* 缩略图：轻纸框感，间距由 boxSpacing 控制 */
+.gallery-item {
+  border-radius: var(--journal-radius-photo);
+  box-shadow: 0 1px 0 rgba(74, 59, 48, 0.04);
+  transition: transform 0.45s var(--journal-ease), box-shadow 0.45s var(--journal-ease);
+}
+
+.gallery-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -16px rgba(74, 59, 48, 0.28);
+}
+
+.gallery-item figure {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--journal-radius-photo);
+  overflow: hidden;
+  /* 覆盖主题 dominant-color 块，贴近纸衬 */
+  background-color: var(--surface-2) !important;
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--journal-radius-photo);
+  transition: transform 0.7s var(--journal-ease);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.03);
+}
+
+/* 首页相册卡片：再松一点 */
+@media (min-width: 640px) {
+  section.galleries {
+    gap: 3.5rem 2.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  section.galleries {
+    gap: 3.75rem 3rem;
+  }
+}
+
+/* —— PhotoSwipe：暖色全屏浏览 —— */
+.pswp {
+  --pswp-bg: #2a211c;
+  --pswp-placeholder-bg: #3a2f28;
+  --pswp-icon-color: #fbf6ee;
+  --pswp-icon-color-secondary: #c0714f;
+  --pswp-icon-stroke-color: #4a3b30;
+  --pswp-preloader-color: rgba(192, 113, 79, 0.35);
+  --pswp-preloader-color-secondary: rgba(251, 246, 238, 0.9);
+  --pswp-error-text-color: #fbf6ee;
+}
+
+.pswp__bg {
+  background: var(--pswp-bg);
+}
+
+.pswp__img {
+  border-radius: 4px;
+}
+
+.pswp__button--arrow--prev,
+.pswp__button--arrow--next {
+  opacity: 0.85;
+}
+
+.pswp__button:hover {
+  opacity: 1;
+}
+
+/* 移动端：隐藏箭头，主要靠滑动切换 */
+@media (max-width: 699px) {
+  .pswp__button--arrow--prev,
+  .pswp__button--arrow--next {
+    display: none !important;
+  }
+}

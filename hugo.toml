@@ -15,10 +15,11 @@ timeout = "120s"
   description = "把走过的路、平常的日子，和宝宝一点点长大的样子，都好好收起来。"
   [params.author]
     name = "YJiang"
+  # 相册网格：更大行高 + 更宽间距 → 宽屏更少列、浏览更松
   [params.gallery]
-    boxSpacing = 14
-    targetRowHeight = 300
-    targetRowHeightTolerance = 0.22
+    boxSpacing = 24
+    targetRowHeight = 380
+    targetRowHeightTolerance = 0.2
 
 [outputs]
   home = ["HTML", "RSS"]
@@ -26,7 +27,7 @@ timeout = "120s"
   section = ["HTML"]
 
 [imaging]
-  quality = 80
+  quality = 82
   resampleFilter = "CatmullRom"
   [imaging.exif]
     disableDate = false
