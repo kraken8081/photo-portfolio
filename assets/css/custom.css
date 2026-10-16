@@ -1,0 +1,265 @@
+/* 家庭日记 · 暖色纸感覆盖（不修改主题源文件） */
+
+:root,
+html.light {
+  color-scheme: light;
+  --surface-1-light: #fbf6ee; /* 奶油纸底 */
+  --surface-2-light: #efe4d3; /* 纸卡衬底 */
+  --text-1-light: #4a3b30; /* 咖啡正文 */
+  --text-2-light: #8c7563; /* 暖灰辅助 */
+  --border-light: #dccbb4;
+  --accent: #c0714f; /* 陶土强调 */
+  --surface-1: var(--surface-1-light);
+  --surface-2: var(--surface-2-light);
+  --text-1: var(--text-1-light);
+  --text-2: var(--text-2-light);
+  --border: var(--border-light);
+  --journal-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --journal-radius-frame: 10px;
+  --journal-radius-photo: 6px;
+}
+
+/* 锁定浅色纸感，避免系统暗色覆盖家庭日记气质 */
+@media (prefers-color-scheme: dark) {
+  :root,
+  html.light {
+    --surface-1: var(--surface-1-light);
+    --surface-2: var(--surface-2-light);
+    --text-1: var(--text-1-light);
+    --text-2: var(--text-2-light);
+    --border: var(--border-light);
+  }
+}
+
+body {
+  font-family: "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC",
+    "Songti SC", "STSong", Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  background-color: var(--surface-1);
+  color: var(--text-1);
+}
+
+h1,
+h2,
+h3,
+header a,
+header .btn {
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+}
+
+a {
+  color: var(--text-1);
+  text-decoration-color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* —— Header：更松的留白 —— */
+body > header {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+body > header .btn {
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+}
+
+/* —— 首页 / 相册英雄区 —— */
+hgroup {
+  gap: 0;
+  max-width: 640px;
+  padding-top: 3.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 3.5rem;
+}
+
+@media (min-width: 640px) {
+  hgroup {
+    padding-top: 5rem;
+    margin-bottom: 4.5rem;
+  }
+}
+
+hgroup .journal-eyebrow {
+  margin: 0 0 1.25rem;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  line-height: 1.5;
+}
+
+hgroup h1 {
+  font-weight: 500 !important;
+  font-size: clamp(2.5rem, calc(2rem + 2.2vw), 3.75rem);
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+/* 陶土色细线：标题与导语之间 */
+hgroup h1::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: 1.75rem auto 0;
+  background: var(--accent);
+  opacity: 0.7;
+}
+
+hgroup p:not(.journal-eyebrow) {
+  margin: 1.75rem 0 0;
+  color: var(--text-2);
+  font-size: clamp(1.125rem, calc(1rem + 0.35vw), 1.25rem);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+/* —— 首页相册卡片：纸框 + 亲密间距 —— */
+section.galleries {
+  gap: 3rem;
+  max-width: 1180px;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  section.galleries {
+    gap: 3rem 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  section.galleries {
+    gap: 3rem;
+  }
+}
+
+.card {
+  border-radius: 0;
+  transition: transform 0.5s var(--journal-ease);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  color: var(--text-1);
+}
+
+.card > figure {
+  aspect-ratio: 1 / 0.74;
+  width: 100%;
+  margin: 0;
+  padding: 0.625rem;
+  box-sizing: border-box;
+  /* override theme inline dominant-color so mat stays cream paper */
+  background: var(--surface-2) !important;
+  background-color: var(--surface-2) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--journal-radius-frame);
+  overflow: hidden;
+}
+
+.card > figure > img,
+.card > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: var(--journal-radius-photo);
+  box-shadow: none;
+  transition: transform 0.9s var(--journal-ease);
+}
+
+.card:hover > figure {
+  box-shadow: 0 18px 40px -18px rgba(74, 59, 48, 0.28);
+}
+
+.card:hover > figure > img,
+.card:hover > img {
+  transform: scale(1.04);
+  box-shadow: none;
+}
+
+.card > div {
+  gap: 0.35rem;
+  padding: 1.5rem 0.25rem 0;
+}
+
+.card > div > h2 {
+  font-weight: 500 !important;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+}
+
+.card > div > p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-2);
+}
+
+/* —— 相册页缩略图：柔和圆角 —— */
+main img,
+.gallery-item figure,
+.gallery-item img {
+  border-radius: var(--journal-radius-photo);
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: var(--journal-radius-photo);
+}
+
+.gallery-item figure {
+  overflow: hidden;
+}
+
+/* —— 关于页正文：更大更可读 —— */
+.prose {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  max-width: 40rem;
+}
+
+.prose p {
+  margin-top: 1.4em;
+  margin-bottom: 1.4em;
+}
+
+/* —— Footer：纸感分割线 —— */
+body > footer section:last-of-type {
+  position: relative;
+  padding-top: 3rem;
+  gap: 1.5rem;
+}
+
+body > footer section:last-of-type::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: var(--border);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+body > footer a:hover {
+  color: var(--accent);
+  text-decoration-line: none;
+}
+
+/* 菜单字重与衬线一致 */
+body > menu {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}

@@ -1,0 +1,46 @@
+baseURL = "http://localhost:1313/"
+title = "光阴相册"
+copyright = "© YJiang"
+defaultContentLanguage = "zh"
+languageCode = "zh-CN"
+hasCJKLanguage = true
+disableKinds = ["taxonomy"]
+enableRobotsTXT = true
+timeZone = "Asia/Shanghai"
+timeout = "120s"
+
+[params]
+  defaultTheme = "light"
+  title = "光阴相册"
+  description = "把走过的路、平常的日子，和宝宝一点点长大的样子，都好好收起来。"
+  [params.author]
+    name = "YJiang"
+  [params.gallery]
+    boxSpacing = 14
+    targetRowHeight = 300
+    targetRowHeightTolerance = 0.22
+
+[outputs]
+  home = ["HTML", "RSS"]
+  page = ["HTML"]
+  section = ["HTML"]
+
+[imaging]
+  quality = 80
+  resampleFilter = "CatmullRom"
+  [imaging.exif]
+    disableDate = false
+    disableLatLong = true   # 不公开拍摄地点 GPS
+    includeFields = "ImageDescription|Orientation"
+
+[module]
+  [module.hugoVersion]
+    min = "0.123.0"
+  [[module.imports]]
+    path = "github.com/nicokaiser/hugo-theme-gallery/v4"
+
+[menu]
+  [[menu.main]]
+    name = "关于我"
+    pageRef = "/about"
+    weight = 10

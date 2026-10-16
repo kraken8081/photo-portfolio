@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# 光阴相册 · Sveltia CMS 配置
+# 文档：https://sveltiacms.app/en/docs/start
+#       https://sveltiacms.app/en/docs/frameworks/hugo
+#       https://sveltiacms.app/en/docs/workflows/local
+#
+# --- 后端说明 ---
+# Sveltia 不支持 git-gateway / Netlify Identity，也不支持 decap-server 本地代理。
+# 本地开发：用 GitHub backend +「Work with Local Repository」（浏览器 File System Access API）。
+#   - Chromium 内核浏览器（Chrome / Edge / Brave）
+#   - 打开 /admin/ ，点「Work with Local Repository」，选本仓库根目录（含 .git 的那一层）
+#   - 不需要先登录 GitHub；repo 可先用占位名
+# 以后接 GitHub：把下面 repo 改成真实 owner/repo，部署后用「Log in with GitHub」远程编辑。
+#   还需要在 GitHub 注册 OAuth App（或用 Sveltia 默认 client），见：
+#   https://sveltiacms.app/en/docs/backends/github
+
+backend:
+  name: github
+  # 占位仓库名：本地工作流不会连远程；IndexedDB 按 name+repo 分区
+  # 推到 GitHub 后请改成真实值，例如：yjiang/photo-portfolio
+  repo: kraken8081/photo-portfolio
+  branch: main
+
+# 站点地址（本地预览；部署后可改成正式域名）
+site_url: http://localhost:1313
+display_url: http://localhost:1313
+locale: zh-CN  # Sveltia 会忽略此项；界面语言跟浏览器走，简体中文已内置
+
+# 顶层媒体目录（各相册用空 media_folder 覆盖为「与 index.md 同目录」）
+media_folder: static/images
+public_folder: /images
+
+# 三个固定相册：files 集合，对应 content/{travel,life,baby}/index.md
+# 空 media_folder / public_folder → 上传的 JPG 落在相册文件夹（Hugo page bundle）
+collections:
+  - name: albums
+    label: 相册
+    label_singular: 相册
+    files:
+      - name: travel
+        label: 旅行
+        file: content/travel/index.md
+        media_folder: ""
+        public_folder: ""
+        fields: &album_fields
+          - { name: title, label: 标题, widget: string }
+          - { name: date, label: 日期, widget: datetime, time_format: false }
+          - { name: weight, label: 排序权重, widget: number, value_type: int, default: 0, hint: "数字越小越靠前" }
+          - { name: description, label: 简介, widget: text, required: false }
+          - { name: private, label: 私密, widget: boolean, default: false, hint: "勾选后不在首页/列表展示（知道链接仍可访问）" }
+          # Hugo Theme Gallery：封面写在 resources 里（src + params.cover）
+          # 见 https://github.com/nicokaiser/hugo-theme-gallery#album-cover
+          - name: resources
+            label: 图片资源 / 封面
+            label_singular: 资源
+            widget: list
+            required: false
+            summary: "{{src}}"
+            thumbnail: src
+            hint: "指定相册封面：选本相册内已有图片，勾选「设为封面」。不设则用文件夹里第一张图。也可勾「隐藏」只作封面、不进画廊。"
+            fields:
+              - name: src
+                label: 图片
+                widget: image
+                choose_url: false
+                accept: image/jpeg,.jpg,.jpeg
+                hint: "从本相册文件夹选择（须已上传到该相册目录；请用 JPG）"
+              - name: title
+                label: 标题
+                widget: string
+                required: false
+                hint: "灯箱标题；留空则用 EXIF ImageDescription"
+              - name: params
+                label: 参数
+                widget: object
+                collapsed: false
+                fields:
+                  - name: cover
+                    label: 设为封面
+                    widget: boolean
+                    default: false
+                    hint: "勾选后作为首页/列表缩略图；通常只勾一张"
+                  - name: hidden
+                    label: 隐藏
+                    widget: boolean
+                    default: false
+                    hint: "勾选后不在相册画廊中显示（可只作封面用）"
+          - { name: body, label: 正文, widget: markdown, required: false }
+
+      - name: life
+        label: 生活
+        file: content/life/index.md
+        media_folder: ""
+        public_folder: ""
+        fields: *album_fields
+
+      - name: baby
+        label: 宝宝成长
+        file: content/baby/index.md
+        media_folder: ""
+        public_folder: ""
+        fields: *album_fields

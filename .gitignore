@@ -1,0 +1,7 @@
+public/
+resources/_gen/
+.hugo_build.lock
+.superdesign/tmp/
+node_modules/
+.env
+*.pem

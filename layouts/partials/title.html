@@ -1,0 +1,11 @@
+{{ if .Title }}
+  <hgroup>
+    {{ if .IsHome }}
+      <p class="journal-eyebrow">YJIANG 的小相册</p>
+    {{ end }}
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.Description }}
+      <p>{{ . | markdownify }}</p>
+    {{ end }}
+  </hgroup>
+{{ end }}
