@@ -64,6 +64,13 @@ hugo --gc --minify             # 生成正式站点到 public/ 目录
 > Sveltia 不支持 git-gateway；本地不连远程也能用。推到 GitHub 后把 `static/admin/config.yml` 里的 `repo` 改成真实仓库，即可用「Log in with GitHub」远程编辑。
 
 ## 部署（简要）
-- **GitHub Pages**：把本目录推到 GitHub 仓库 → Settings → Pages → Source 选 “GitHub Actions” → 使用 Hugo 官方工作流模板（参见 https://gohugo.io/hosting-and-deployment/hosting-on-github/）。记得把 `hugo.toml` 的 `baseURL` 改成 `https://你的用户名.github.io/仓库名/`。
-- **Cloudflare Pages**（国内访问通常更快）：连接 GitHub 仓库，构建命令 `hugo --gc --minify`，输出目录 `public`，环境变量 `HUGO_VERSION=0.168.0`。
+
+目标站点 URL（项目 Pages）：https://kraken8081.github.io/photo-portfolio/  
+后台（部署成功后）：https://kraken8081.github.io/photo-portfolio/admin/
+
+- **GitHub Actions 工作流**：已提供 `.github/workflows/hugo.yml`（Hugo Extended 0.168、模块拉取、`hugo --minify`、`actions/deploy-pages`）。推送到 `main` 或手动 `workflow_dispatch` 会构建。
+- **GitHub Pages 与私有仓库**：当前账号为 **GitHub Free**。私有仓库无法启用 Pages（API：`Your current plan does not support GitHub Pages for this repository.`）。可选方案：
+  1. **升级 GitHub Pro**（个人账号可对私有仓库启用 Pages；站点内容仍默认公开访问），然后在仓库 Settings → Pages → Source 选 GitHub Actions，或运行 `gh api -X POST repos/kraken8081/photo-portfolio/pages -f build_type=workflow`。
+  2. **将仓库改为公开**（需你明确同意；未自动执行），免费即可用 Pages；注意照片与源码会对所有人可见。
+  3. **改用 Cloudflare Pages**（推荐国内访问）：连接本私有仓库即可，构建命令 `hugo --gc --minify`，输出目录 `public`，环境变量 `HUGO_VERSION=0.168.0`（Extended），Go 用于 Hugo Modules。仓库可保持私有。
 - 照片多时仓库会变大，单个仓库建议控制在 1GB 以内。

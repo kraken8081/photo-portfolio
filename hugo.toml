@@ -1,4 +1,4 @@
-baseURL = "http://localhost:1313/"
+baseURL = "https://kraken8081.github.io/photo-portfolio/"
 title = "光阴相册"
 copyright = "© YJiang"
 defaultContentLanguage = "zh"

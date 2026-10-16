@@ -23,8 +23,8 @@ backend:
   branch: main
 
 # 站点地址（本地预览；部署后可改成正式域名）
-site_url: http://localhost:1313
-display_url: http://localhost:1313
+site_url: https://kraken8081.github.io/photo-portfolio
+display_url: https://kraken8081.github.io/photo-portfolio
 locale: zh-CN  # Sveltia 会忽略此项；界面语言跟浏览器走，简体中文已内置
 
 # 顶层媒体目录（各相册用空 media_folder 覆盖为「与 index.md 同目录」）
